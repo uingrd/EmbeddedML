@@ -13,7 +13,7 @@ import math
 ## 全局设置
 ###################
 
-N=8             # 合成数据的bit宽度
+N=12            # 合成数据的bit宽度
 GMAX=N          # 合成期间考虑的最大移位量
 VMAX=1<<GMAX    # 合成的最大数
 
@@ -104,20 +104,32 @@ def H(R,S,T):
             if d<diff: diff,s_sel=d,s
     return s_sel
 
-## 本地执行并验证生成的表达式代码
+## 生成的表达式代码，并通过本地执行验证
+# 输入
+#   E   每个数的两个生成元
+#   C   待输出表达式的数集 
 # (动态生成python代码片段并执行)
-def verify_equation_string(E,C0):
+def gen_equations(E,C):
+    flag=True
     exec('x=1') # 用于验证表达式正确性
-    for n,c in enumerate(C0):
+    for n,c in enumerate(C):
         equ_str='c1=x' if c==1 else find_equation(c,*E[c])
+        # if np.random.rand()>0.99: continue  # 测试注入错误
         print('[INF]    %d: %s'%(n,equ_str), end='')
         # 验证表达式正确性
-        ver_equ_str='%s; print("    error ********!" if %s!=%s else "")'%(equ_str, equ_str[:equ_str.find('=')],equ_str[1:equ_str.find('=')])
-        exec(ver_equ_str)
+        ver_equ_str=equ_str
+        ver_equ_str+='; print("    error ********!" if %s!=%s else "")'%(equ_str[:equ_str.find('=')],equ_str[1:equ_str.find('=')])
+        ver_equ_str+='; flag=False if %s!=%s else flag'%(equ_str[:equ_str.find('=')],equ_str[1:equ_str.find('=')])
+        try:
+            exec(ver_equ_str)
+        except:
+            return False
+    return flag
 
 ####################
 # 单元测试
 ####################
+np.random.seed(1234)
 
 # C是待搜索数据集
 # C=[29,183,161,7,47]
@@ -128,11 +140,11 @@ def verify_equation_string(E,C0):
 # C=[n for n in range(3,32) if n%2==1]
 
 # 自动测试
-for it in range(100):
+for it in range(20):
     # 生成随机测试集
     C=[]
     for _ in range(20):
-        v=np.random.randint(3,256,1).ravel()[0]
+        v=np.random.randint(3,2**GMAX,1).ravel()[0]
         if v%2==0: v+=1
         C.append(v)
     C=list(set(C))
@@ -175,7 +187,7 @@ for it in range(100):
     R0=R.copy()     # 所有合成目标(是原始地“目标数集”并上合成期间额外生成地“中间数集”)
     R0.remove(1)    
     # 根据R0中数据合成的“依赖顺序”，提取其中个元素加入C0列表
-    while len(R0)>0:
+    while R0:
         for r in R0:
             a,b=E[r]# r由a、b合成
             if a in C0 and b in C0: # 只有r所依赖的a和b已经生成，r才会被加入C0
@@ -186,7 +198,10 @@ for it in range(100):
     # C0中元素按次序被合成(考虑了合成次序的依赖性)
 
     # 依次合成C0中元素，打印表达式序列并验证其正确性
-    verify_equation_string(E,C0)
+    if not gen_equations(E,C0):
+        print('\n[ERR] **********')
+        break
+
 
 # 下面自动生成图片，需要安装graphviz才能运行
 if False:
