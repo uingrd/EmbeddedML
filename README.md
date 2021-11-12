@@ -11,6 +11,8 @@
 基于查表实现的快速COS算法演示
 ## MAT_MUL 
 矩阵乘法的快速运算
+## MAT_MUL_QUANT
+基于仿射映射量化的矩阵乘法演示
 ## MCM 
 搜寻多个常数乘法的表达式
 ## MNIST_PYTHORCH_C
