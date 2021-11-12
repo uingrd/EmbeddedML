@@ -11,6 +11,8 @@
 矩阵乘法的快速运算
 ## MCM 
 搜寻多个常数乘法的表达式
+## MNIST_PYTHORCH_C
+使用pytorch训练手写数字识别神经网络，并自动生成C语言代码(数据文件)实现推理运算
 ## ONNX_SKLEARN
 演示基于scikit-learn训练分类器并导出ONNX模型过程
 ## SCM
