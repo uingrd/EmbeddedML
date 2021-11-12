@@ -11,8 +11,8 @@
 2. 代码main.c实现MNIST CNN神经网络推理
    编译命令是：
    gcc -o mnist mnist.c export_code/param.c export_code/test_data.c -std=c99
-   (由于数据文件较大，编译需要一些时间完成)
-   编译生成mnist(.exe)
+   (由于数据文件较大，编译需要一些时间完成),
+   编译生成mnist(.exe)。
    运行该程序执行神经网络推理，精度大约98%
 
 备注：
