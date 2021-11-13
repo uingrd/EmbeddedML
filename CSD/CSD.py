@@ -70,6 +70,12 @@ def csd_to_code(csd):
 ## 将16-bit有符号整数转成移位运算指令字符串
 def int16_to_code(v):
     return csd_to_code(bin_str_to_csd(int16_to_bin_str(v)))
+
+## 生成C源代码
+def int16_to_c_code(v,fname='auto_code.c'):
+    with open(fname,'wt') as f:
+        f.write('int32_t mul_%d%s(int32_t x)\n{\n    return %s;\n}\n'%(np.abs(v),'_neg' if v<0 else '',int16_to_code(v)))
+        
     
 ####################
 # 单元测试
@@ -123,3 +129,8 @@ if __name__=='__main__':
             print('[ERR]    ',bv)
             print('[ERR]    ',dict_to_str(csd))
             
+    # test4
+    print('\n[INF] ---- test 4 ----')
+    int16_to_c_code(123 ,'auto_code1.c')
+    int16_to_c_code(-123,'auto_code2.c')
+    
