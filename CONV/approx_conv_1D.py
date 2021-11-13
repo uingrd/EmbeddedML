@@ -16,7 +16,8 @@ np.random.seed(1234)
 ## 矩形卷积
 ####################
 
-# 矩形卷积，仅仅输出有效部分
+## 矩形卷积，仅仅输出有效部分
+# 代码清单5-23
 def const_ker_conv_valid(x,K,c=1.0):
     xcum=np.cumsum(x)*c
     return np.hstack((xcum[K-1],xcum[K:]-xcum[:N-K]))
@@ -36,7 +37,8 @@ def const_ker_conv(x,K,c=1.0):
     y1=np.cumsum(x[N-1:N-K:-1])[::-1]*c
     return np.hstack((y0,const_ker_conv_valid(x,K,c),y1))
 
-# 线性矩形卷积，使用显式循环算法
+## 线性矩形卷积，使用显式循环算法
+# 代码清单5-24
 def const_ker_conv_loop(x,K,c=1.0):
     N=np.size(x)
     y=np.zeros(N+K-1)
@@ -88,6 +90,7 @@ if True:
 
     
 ## 测试用矩形卷积合成卷积
+# 代码清单5-25
 if True:
     N=100
     x=np.random.randint(-10,10,N).astype(float)
@@ -130,7 +133,7 @@ if True:
     plt.show()
 
 
-
+# 代码清单5-26
 if True:
     N=100
     x=np.random.randint(-10,10,N).astype(float)
@@ -185,6 +188,7 @@ if True:
 # 输出卷积结果需要
 #   b!=0: 3N次乘法
 #   b==0: 2N次乘法
+# 代码清单5-28
 ####################
 def saw_ker_conv0(x,K,s=1.0):
     N=np.size(x)
@@ -198,7 +202,8 @@ def saw_ker_conv0(x,K,s=1.0):
     for n in range(1,N-K+1):        # 2N次乘法
         y[n]=y[n-1]+xsum[n-1]*s-Ks*x[n-1]
     return y
-        
+
+# 代码清单5-29
 def saw_ker_conv(x,K,s=1.0,b=0):
     if b==0: 
         return saw_ker_conv0(x,K,s)
@@ -312,6 +317,7 @@ if True:
 
 
 # 绘制原始卷积核和近似卷积核图
+# 代码清单5-30
 if True:
     h_ori=np.array([  -1.2,  -1.7,  -2.7,  -1.4,   0.8,   3.2,   5.2, 4.3,   3.6, 3.4,   3.2, 2.7,   2.1, 1.7,   1.1, 0.3 ])
     h=np.array([  -1,  -2,  -3,  -1,   1,   3,   5, 4.5,   4, 3.5,   3, 2.5,   2, 1.5,   1, 0.5 ])
@@ -492,7 +498,7 @@ def calc_multi_lossy_iir(param,x):
         y+=yf[::-1]*scale
     return y
     
-
+# 代码清单5-33
 def calc_sos_iir(param,x,bidir):
     if bidir:
         y=calc_sos_iir(param,x[::-1],bidir=False)
@@ -504,7 +510,8 @@ def calc_sos_iir(param,x,bidir):
     for n in range(2,len(x)): 
         y[n]=b0*x[n]+b1*x[n-1]+b2*x[n-2]-a1*y[n-1]-a2*y[n-2]  
     return y*s
-    
+
+# 代码清单5-34（经过了扩展）
 IIR_TYPE    = 'lossy int'#'sos' # 'iir', 'lossy int'
 
 SYMM        = False      # 使用对称滤波器结果？
@@ -656,6 +663,7 @@ if True:
 # 用R个长度L的序列（基）的线性组合近似表示h的各段值
 # 其中R个基存放于列表UR中
 # 线性之和系数存放于VR中
+# 代码清单5-31
 def appr_seg_filter(h,L,P,R,x,UR=None,VR=None,out_URVR=False):
     # 计算卷积核的分段近似
     if UR is None or VR is None:            
@@ -713,6 +721,7 @@ if True:
     plt.show()
     
     # 利用卷积核的分段近似计算卷积
+    # 代码清单5-32
     x=np.random.randint(-10,10,N).astype(float)
     y_appr,UR,VR=appr_seg_filter(h,L,P,R,x,out_URVR=True)
     

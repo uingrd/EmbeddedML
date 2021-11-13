@@ -84,7 +84,7 @@ if True:
     plt.title('img_ref-img_out')
     plt.show()
 
-
+# 代码清单5-35
 def approx_conv_2d(H,R,img,UR=None,VR=None,ret_SVD=False):
     # H的SVD分解
     if UR is None or VR is None:
@@ -137,6 +137,7 @@ if True:
 
 
 ## 2D矩形卷积
+# 代码清单5-36
 def box_conv_2D(X,K1,K2,c=1):
     M,N=X.shape
 
@@ -197,6 +198,7 @@ if True:
     plt.show()
 
     # 分解成3个矩形卷积核，用他们进行快速卷积
+    # 代码清单5-37
     M,N=80,80
     X=np.random.randint(-10,10,(M,N)).astype(float)
     Y1=box_conv_2D(X,5,5)

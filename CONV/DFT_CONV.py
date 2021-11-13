@@ -104,9 +104,10 @@ def conv_2D_DFT(X,H,W=None):
     Y=N*np.conj(W).dot(WYW).dot(np.conj(W))
     return np.real(Y)
 
-# 使用numpy内带的FFT模块计算2D循环卷积
+## 使用numpy内带的FFT模块计算2D循环卷积
 # 注意：X和H是相同尺寸的实数方阵
 # W是DFT变换矩阵，如果需要提高运行速度，需要事先计算好W并传给该API
+# 代码清单5-19
 def conv_2D_numpy_FFT(X,H):
     N,M=X.shape
     K,R=H.shape
