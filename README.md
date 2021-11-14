@@ -17,8 +17,10 @@
 基于仿射映射量化的矩阵乘法演示
 ## MCM 
 搜寻多个常数乘法的表达式
-## MNIST_PYTHORCH_C
+## MNIST_PYTORCH_C
 使用pytorch训练手写数字识别神经网络，并自动生成C语言代码(数据文件)实现推理运算
+## MNIST_PYTORCH_FORCE_ZERO
+使用pytorch训练手写数字识别神经网络，通过L1约束使得权重系数稀疏化(取值接近0)，并自动生成C语言代码(数据文件)实现神经网络推理运算
 ## NEON
 使用ARM NEON指令优化代码的例子
 ## ONNX_SKLEARN
