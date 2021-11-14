@@ -21,6 +21,8 @@
 使用pytorch训练手写数字识别神经网络，并自动生成C语言代码(数据文件)实现推理运算
 ## MNIST_PYTORCH_FORCE_ZERO
 使用pytorch训练手写数字识别神经网络，通过L1约束使得权重系数稀疏化(取值接近0)，并自动生成C语言代码(数据文件)实现神经网络推理运算
+## MNIST_PYTORCH_QUANT_ROUND
+使用pytorch训练手写数字识别神经网络，通过在损失函数中加入量化约束，使得权重系数集中在特定格点附近
 ## NEON
 使用ARM NEON指令优化代码的例子
 ## ONNX_SKLEARN
