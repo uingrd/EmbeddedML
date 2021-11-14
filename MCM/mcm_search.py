@@ -6,6 +6,8 @@ import math
 
 ####################
 # 多常数乘法搜索算法
+# 注意：只合成“正奇数“集合
+#
 # 代码清单 4-23
 ####################
 
@@ -28,18 +30,16 @@ VMAX=1<<GMAX    # 合成的最大数
 # 注意：
 #   输入a和b的次序无关，即
 #   synthesize_value_all(a,b,P)==synthesize_value_all(b,a,P)
-def synthesize_value_all(a,b,P=None):
+def synthesize_value_all(a,b,P):
     S=[]
     for ga in range(GMAX-int(math.log2(a))):
         for gb in range(GMAX-int(math.log2(b))):
             for pa,pb in [(1,1),(1,-1)]:
-                s=pa*(a<<ga)+pb*(b<<gb)
-                if P is not None:
-                    if s in P: continue     # 排除集合P内的元素
-                if abs(s) in S: continue    # 排除已生成过的元素
-                if 0<abs(s)<VMAX:           # 排除0和过大元素
-                    S.append(abs(s))
-    return S
+                s=abs(pa*(a<<ga)+pb*(b<<gb))
+                if s in P: continue     # 排除集合P内的元素
+                if 0<s<VMAX: S.append(s)# 排除0和过大元素
+                    
+    return list(set(S)) # 排除重复元素
 
 
 ## 搜索用a和b生成t的表达式，即：
@@ -88,8 +88,8 @@ def synthesize_from_set(R):
     S={}
     for a in R:
         for b in R:
+            if b>a: continue    # 减少重复
             for s in synthesize_value_all(a,b,R):
-                if s in R: continue
                 if s in S: continue
                 S[s]=(a,b)
     return S
@@ -104,52 +104,54 @@ def H(R,S,T):
             if d<diff: diff,s_sel=d,s
     return s_sel
 
-## 生成的表达式代码，并通过本地执行验证
-# 输入
-#   E   每个数的两个生成元
-#   C   待输出表达式的数集 
-# (动态生成python代码片段并执行)
-def gen_equations(E,C):
-    flag=True
-    exec('x=1') # 用于验证表达式正确性
-    for n,c in enumerate(C):
-        equ_str='c1=x' if c==1 else find_equation(c,*E[c])
-        # if np.random.rand()>0.99: continue  # 测试注入错误
-        print('[INF]    %d: %s'%(n,equ_str), end='')
-        # 验证表达式正确性
-        ver_equ_str=equ_str
-        ver_equ_str+='; print("    error ********!" if %s!=%s else "")'%(equ_str[:equ_str.find('=')],equ_str[1:equ_str.find('=')])
-        ver_equ_str+='; flag=False if %s!=%s else flag'%(equ_str[:equ_str.find('=')],equ_str[1:equ_str.find('=')])
+## 验证列表内的表达式序列
+def verify_equations(equ_str_list):
+    x,flag=1,True
+    for equ_str in equ_str_list:
+        ver_equ_str=equ_str+';\nif %s!=%s: print("    error ********!");\n'%(equ_str[:equ_str.find('=')],equ_str[1:equ_str.find('=')])
+        ver_equ_str+='flag=False if %s!=%s else flag\n'%(equ_str[:equ_str.find('=')],equ_str[1:equ_str.find('=')])
         try:
             exec(ver_equ_str)
         except:
             return False
     return flag
+                
 
-####################
-# 单元测试
-####################
-np.random.seed(1234)
+## 生成的表达式代码，并通过本地执行验证
+# 输入
+#   E   每个数的两个生成元
+#   C   待输出表达式的数集 
+# 输出
+#   数据合成表达式列表
+def gen_equations(E,R,verbose=False):
+    # 根据R0中数据合成的“依赖顺序”，提取其中个元素加入C0列表
+    C0=[1]
+    R0=R.copy()
+    R0.remove(1)
+    while R0:
+        for r in R0:
+            a,b=E[r]
+            if a in C0 and b in C0:
+                C0.append(r)
+                R0.remove(r)
+                break
+    print('[INF] C0(%d):'%len(C0),C0)
+    
+    # 生成所有表达式字符串
+    equ_str_list=['c1=x' if c==1 else find_equation(c,*E[c])\
+                    for n,c in enumerate(C0)]    # 存放所有生成代码
+    if verbose: 
+        for n,equ_str in enumerate(equ_str_list): 
+            print('[INF]    %d: %s'%(n,equ_str))
+        print()
+    return equ_str_list
 
-# C是待搜索数据集
-# C=[29,183,161,7,47]
-# C=[11,137,7]
-# C=[89,101,3]
-# C=[11,13,29,43]
-# C=[n for n in range(3,256) if n%2==1]
-# C=[n for n in range(3,32) if n%2==1]
-
-# 自动测试
-for it in range(20):
-    # 生成随机测试集
-    C=[]
-    for _ in range(20):
-        v=np.random.randint(3,2**GMAX,1).ravel()[0]
-        if v%2==0: v+=1
-        C.append(v)
-    C=list(set(C))
-    print('[INF] C(%d):'%len(C),C)  # C是待搜索数据集
-
+## MCM搜索
+# 输出
+#   R   中间数集
+#   E   每个数对应的两个生成数
+#   生成表达式字符串数组
+def mcm_search(C,verbose=False):
     # 搜索期间的中间数据存储
     T=C.copy()  # 待合成的数集(集合内容在运行期间不断减少)
     R,W=[],[1]  # R保存每一轮合成计算中“有用”合成数据，W保存下一轮需要增补到R的数据
@@ -179,54 +181,54 @@ for it in range(20):
             W.append(s)
             if s not in E: E[s]=S[s]        # 保存合成参数
 
-    print('[INF] R(%d):'%len(R),R)
-    if False: print('[INF] E:',E)
+    if verbose: 
+        print('[INF] R(%d):'%len(R),R)
+        print('[INF] E:',E)
 
-    # 输出计算表达式
-    C0=[1]
-    R0=R.copy()     # 所有合成目标(是原始地“目标数集”并上合成期间额外生成地“中间数集”)
-    R0.remove(1)    
-    # 根据R0中数据合成的“依赖顺序”，提取其中个元素加入C0列表
-    while R0:
-        for r in R0:
-            a,b=E[r]# r由a、b合成
-            if a in C0 and b in C0: # 只有r所依赖的a和b已经生成，r才会被加入C0
-                C0.append(r)
-                R0.remove(r)
-                break
-    print('[INF] C0(%d):'%len(C0),C0)
-    # C0中元素按次序被合成(考虑了合成次序的依赖性)
+    return R,E,gen_equations(E,R,verbose)
+        
+def gen_ccode(equ_str_list,fname='auto_code.c'):
+    with open(fname,'wt') as f:
+        f.write('#include <stdint.h>\n')
+        f.write('void mcm(int32_t x, int32_t *output)\n')
+        f.write('{\n')
+        for equ_str in equ_str_list:
+            f.write('    int32_t '+equ_str+';\n')
+        f.write('\n')
+        for n,equ_str in enumerate(equ_str_list):
+            f.write('    output[%d]='%n+equ_str[:equ_str.find('=')]+';\n')
+        f.write('}\n')
 
-    # 依次合成C0中元素，打印表达式序列并验证其正确性
-    if not gen_equations(E,C0):
-        print('\n[ERR] **********')
-        break
-
-
-# 下面自动生成图片，需要安装graphviz才能运行
-if False:
-    from graphviz import Digraph
-    dot = Digraph(comment='MCM graph')
-    for c in C0:
-        dot.node(name='v'+str(c),label=str(c))
-
-    for c in C0:
-        if c==1: continue
-        _,(ga,gb,pa,pb,a,b)=find_equation(c,*E[c],ret_param=True)
-        if a>0:
-            e=str(1<<ga) if pa>0 else ('-'+str(1<<ga))
-            dot.edge('v'+str(a), 'v'+str(c), e)
-        if b>0:
-            e=str(1<<gb) if pb>0 else ('-'+str(1<<gb))
-            dot.edge('v'+str(b), 'v'+str(c), e)
-
-    dot.view()
-    dot.render('MCM-graph.gv', view=True)
-
-    # dot MCM-graph.gv  -Kcirco -Tpdf -o img.pdf
-    # dot MCM-graph.gv  -Kneato -Tpdf -o img.pdf
-    # dot MCM-graph.gv  -Kdot -Tpdf -o img.pdf
-    # dot MCM-graph.gv  -Ktwopi -Tpdf -o img.pdf
-    # dot MCM-graph.gv  -Kfdp -Tpdf -o img.pdf
-    # dot MCM-graph.gv  -Ksfdp -Tpdf -o img.pdf
+####################
+# 单元测试
+####################
+if __name__ == '__main__':
+    np.random.seed(1234)
     
+    # MCM搜索并生成C程序的测试
+    if True:
+        C=[29,183,161,7,47] # 可选测试集 [29,183,161,7,47],[11,137,7],[89,101,3],[11,13,29,43],list(range(3,256,2)),list(range(3,32,2))
+        R,E,equ_str_list=mcm_search(C,verbose=True)
+        gen_ccode(equ_str_list)
+    
+    if True:
+        TEST_NUM=100    # 测试循环轮次
+        NUM     =20     # 测试数集尺寸
+        
+        # 自动测试
+        equ_size=[]
+        for it in range(TEST_NUM):
+            # 生成随机测试集
+            C=list(set(np.clip(0,VMAX-1,np.random.randint(3,VMAX/2,NUM)*2+1)))
+            print('[INF] C(%d):'%len(C),C)  # C是待搜索数据集
+            
+            R,E,equ_str_list=mcm_search(C,verbose=True)
+            print('[INF] R(%d):'%len(R),R)
+
+            equ_size.append(len(R))
+            if not verify_equations(equ_str_list):
+                print('\n[ERR] **********')
+                break
+
+        print('[INF] average # equation:',np.mean(equ_size))    # 35.94
+
