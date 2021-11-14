@@ -27,8 +27,8 @@ DATA_PATH='./data/'
 EXPORT_MODEL_PATH='./export_model/'
 EXPORT_CODE_PATH ='./export_code/'
 
-EXTRA_LOSS_SCALE=0.1e-3
-TH=0.03
+EXTRA_LOSS_SCALE=0.1e-3 # 权系数稀疏化L1损失的权重
+TH=0.03                 # 数据置零门限
 
 ########################################
 # 演示torch训练MNIST模型并测试权重系数稀疏化
