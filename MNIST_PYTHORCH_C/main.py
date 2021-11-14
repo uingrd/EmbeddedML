@@ -34,7 +34,7 @@ def load_data(batch_size, test_batch_size):
     
     # 加载numpy数据
     print('[INF] Loading mnist data from npy file...')
-    if False:
+    if DOWNLOAD_DATA:
         from torchvision import datasets
         data_train = datasets.MNIST(root = DATA_PATH,train = True,download = True)
         data_test = datasets.MNIST(root=DATA_PATH, train = False)
