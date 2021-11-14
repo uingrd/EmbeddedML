@@ -235,7 +235,7 @@ if __name__ == '__main__':
         print('[INF] Constructing model...')
         model = model_c()
         
-        print('[INF] Trianing...')
+        print('[INF] Training...')
         train(args, model, device, train_loader,test_loader)
         torch.save(model, EXPORT_MODEL_PATH+'mnist_cnn.pth')
         
