@@ -4,3 +4,4 @@
 SVM_RBF/export_code/svm_rbf_test.c
 SVM_RBF/export_code/svm_rbf_test.h
 SVM_RBF/export_code/test
+auto_code.c
