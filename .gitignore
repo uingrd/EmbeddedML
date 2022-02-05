@@ -6,3 +6,4 @@ SVM_RBF/export_code/svm_rbf_test.h
 SVM_RBF/export_code/test
 auto_code.c
 MCM/export_code/test
+CONV/export_code/test
