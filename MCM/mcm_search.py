@@ -186,10 +186,15 @@ def mcm_search(C,verbose=False):
         print('[INF] E:',E)
 
     return R,E,gen_equations(E,R,verbose)
-        
-def gen_ccode(equ_str_list,fname='auto_code.c'):
+
+## 生成C语言测试代码
+def gen_ccode(equ_str_list,fname='export_code/auto_code.c'):
     with open(fname,'wt') as f:
         f.write('#include <stdint.h>\n')
+        f.write('#include <stdio.h>\n')
+        f.write('\n')
+        f.write('#include "../float_shift.h"\n')
+        f.write('\n')
         f.write('void mcm(int32_t x, int32_t *output)\n')
         f.write('{\n')
         for equ_str in equ_str_list:
@@ -197,6 +202,26 @@ def gen_ccode(equ_str_list,fname='auto_code.c'):
         f.write('\n')
         for n,equ_str in enumerate(equ_str_list):
             f.write('    output[%d]='%n+equ_str[:equ_str.find('=')]+';\n')
+        f.write('}\n')
+        f.write('\n')
+        f.write('int main()\n')
+        f.write('{\n')
+        x=np.random.randint(-10000,10000)
+        f.write('    int32_t x=%d;\n'%x)
+        f.write('    int32_t output[%d];\n'%len(equ_str_list))
+        f.write('    int32_t reference[%d]={'%len(equ_str_list))
+        for equ_str in equ_str_list: f.write(equ_str[1:equ_str.find('=')]+', ')
+        f.write('};\n')
+        
+        f.write('    printf("[INF] start of test\\n");\n')
+        f.write('    mcm(x,output);\n')
+        f.write('    for (int n=0; n<%d; n++)\n'%len(equ_str_list))
+        f.write('        if (output[n]!=reference[n]*x)\n')
+        f.write('            printf("[ERR] x*%d\\n",reference[n]);\n')
+        f.write('        else\n')
+        f.write('            printf("[INF] x*%d \tPASS\\n",reference[n]);\n')
+        f.write('    printf("[INF] end of test\\n");\n')
+        f.write('    return 0;\n')
         f.write('}\n')
 
 ####################
@@ -211,7 +236,7 @@ if __name__ == '__main__':
         R,E,equ_str_list=mcm_search(C,verbose=True)
         gen_ccode(equ_str_list)
     
-    if True:
+    if False:
         TEST_NUM=100    # 测试循环轮次
         NUM     =20     # 测试数集尺寸
         
