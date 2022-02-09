@@ -72,9 +72,19 @@ def int16_to_code(v):
     return csd_to_code(bin_str_to_csd(int16_to_bin_str(v)))
 
 ## 生成C源代码
-def int16_to_c_code(v,fname='auto_code.c'):
+def int16_to_c_code(v,fname='export_code/auto_code.c'):
     with open(fname,'wt') as f:
+        f.write('#include <stdint.h>\n')
         f.write('int32_t mul_%d%s(int32_t x)\n{\n    return %s;\n}\n'%(np.abs(v),'_neg' if v<0 else '',int16_to_code(v)))
+        f.write('\n')
+        f.write('#include <stdio.h>\n')
+        f.write('#include <stdlib.h>\n')
+        f.write('int main()\n')
+        f.write('{\n')
+        f.write('    int32_t x=random()-RAND_MAX/2;\n')
+        f.write('    int32_t y=mul_%d%s(x);\n'%(np.abs(v),'_neg' if v<0 else ''))
+        f.write('    if (y==%d*x) printf("[OK]\\n"); else printf ("[ERR] %%d (%%d)\\n",y,%d*x);\n'%(v,v))
+        f.write('}\n')
         
     
 ####################
@@ -131,6 +141,6 @@ if __name__=='__main__':
             
     # test4
     print('\n[INF] ---- test 4 ----')
-    int16_to_c_code(123 ,'auto_code1.c')
-    int16_to_c_code(-123,'auto_code2.c')
+    int16_to_c_code(-123 )
+    #int16_to_c_code(123)
     
