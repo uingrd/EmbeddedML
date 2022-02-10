@@ -31,6 +31,8 @@
 使用ARM NEON指令优化代码的例子
 ## ONNX_SKLEARN
 演示基于scikit-learn训练分类器并导出ONNX模型过程
+## python_numpy_dll
+演示用C++实现算法的动态链接库文件，并被python调用
 ## SCM
 搜索给定整数常数的合成公式，并生成快速乘法表达式
 ## SVM_RBF

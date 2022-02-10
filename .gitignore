@@ -16,3 +16,4 @@ FXP/y_int.bin
 *.pyc
 FXP/fxp_filter_data.c
 FXP/fxp_filter_data.c
+python_numpy_dll/libAdd.so
