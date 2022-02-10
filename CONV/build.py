@@ -1,4 +1,7 @@
-import platform,os
+import platform,os,sys
+# 设置当前运行目录
+os.chdir(sys.path[0])
+
 if platform.system()=='Darwin': # MacOS
     os.system('clang fast_fir.c -Wall -c -o export_code/fast_fir.o -fno-stack-protector')
     os.system('clang export_code/fast_fir.o -Wall -o export_code/test_fir')

@@ -18,6 +18,10 @@ print('[INF] test error: %d/%d'%
 num_cls, num_dim = model.var_.shape
 num_dat=len(iris['target'])
 
+import platform,os,sys
+# 设置当前运行目录
+os.chdir(sys.path[0])
+
 # 生成C头文件
 print('[INF] generating C header...')
 fp=open('export_code/gnb_test.h','wt')

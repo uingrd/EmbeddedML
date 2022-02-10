@@ -309,6 +309,10 @@ def export_test_data_to_c(test_x,test_y,num,path):
 
 ## 主入口
 if __name__ == '__main__':
+    import platform,os,sys
+    # 设置当前运行目录
+    os.chdir(sys.path[0])
+
     args = get_args()
     if not args.no_cuda and torch.cuda.is_available():
         print('[INF] using CUDA...')

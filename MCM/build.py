@@ -1,4 +1,7 @@
-import platform,os
+import platform,os,sys
+# 设置当前运行目录
+os.chdir(sys.path[0])
+
 if platform.system()=='Darwin': # MacOS
     os.system('clang float_shift.c -Wall -c -o export_code/float_shift.o -fno-stack-protector')
     os.system('clang export_code/auto_code.c -Wall -c -o export_code/auto_code.o -fno-stack-protector')

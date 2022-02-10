@@ -228,6 +228,10 @@ def gen_ccode(equ_str_list,fname='export_code/auto_code.c'):
 # 单元测试
 ####################
 if __name__ == '__main__':
+    import platform,os,sys
+    # 设置当前运行目录
+    os.chdir(sys.path[0])
+
     np.random.seed(1234)
     
     # MCM搜索并生成C程序的测试

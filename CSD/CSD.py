@@ -91,6 +91,10 @@ def int16_to_c_code(v,fname='export_code/auto_code.c'):
 # 单元测试
 ####################
 if __name__=='__main__':
+    # 设置当前工作目录
+    import os,sys
+    os.chdir(sys.path[0])
+
     print('\n[INF] ---- test 1 ----')
     bv=int16_to_bin_str(-141)
     print('[INF] bv:\n    ',bv)
