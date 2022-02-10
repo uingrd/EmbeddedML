@@ -1,7 +1,7 @@
 #coding:utf-8
 #!/usr/bin/python
 
-import os, platform, IPython
+import os, sys, platform, IPython
 import numpy as np
 from scipy.signal import kaiserord, lfilter, firwin, freqz
 
@@ -9,6 +9,9 @@ import matplotlib.pylab as plt
 from data_format import *
 
 np.random.seed(1234)
+
+# 设置当前运行目录
+os.chdir(sys.path[0])
 
 ####################
 # 演示对通过定点数运算实现FIR近似滤波
@@ -141,8 +144,12 @@ if True:
         f.write('\n};\n\n')
 
     # 编译并运行C测试程序
-    os.system('gcc -o fxp_filter fxp_filter_data.c fxp_filter.c -std=c99')
-    os.system('fxp_filter')
+    if platform.system()=='Darwin': # MacOS
+        os.system('clang -o test fxp_filter_data.c fxp_filter.c -DCLANG_MACOS -std=c99')
+        os.system('./test')
+    else:
+        os.system('gcc -o test fxp_filter_data.c fxp_filter.c -std=c99')
+        os.system('./test')
     
     # 读回C测试程序输出的定点数
     fxp_y_f32_c=np.fromfile('y_int.bin', dtype=np.int8).astype(float)/(2.0**mbits_y)
@@ -152,6 +159,6 @@ if True:
     plt.plot(fxp_y_f32,'r')
     plt.plot(fxp_y_f32_c-fxp_y_f32,'k')
     plt.title('fxp comparison, C vs. python')
-    plt.legend(['C output','fxp_y', 'quant. err.'])
+    plt.legend(['C output','fxp_y', 'err.'])
     plt.show()
 

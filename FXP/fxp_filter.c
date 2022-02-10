@@ -1,6 +1,10 @@
 #include <stdio.h>
-#include <malloc.h>
 #include <stdint.h>
+#include <stdlib.h>
+
+#ifndef CLANG_MACOS
+    #include <malloc.h>
+#endif
 
 extern const int NUM_TAPS;          // 滤波器抽头数目
 extern const int Y_SHIFT;           // 输出数据格式转换移位量
@@ -27,12 +31,18 @@ int8_t fir(int8_t x)
     return (int8_t)sum;
 }
 
-void main()
+int main()
 {
     FILE* fp;
     int8_t y;
-    buf=(int8_t*)calloc(NUM_TAPS,1);
+# ifdef CLANG_MACOS
+    fp = fopen("y_int.bin", "wb");
+#else
     fopen_s(&fp, "y_int.bin", "wb");
+#endif
+   
+    buf=(int8_t*)calloc(NUM_TAPS,1);
+ 
     for (int n=0; n<NUM_X; n++)
     {
         y=fir(x_int[n]);
@@ -40,5 +50,7 @@ void main()
     }
     fclose(fp);
     free(buf);
+
+    return 0;
 }
 

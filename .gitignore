@@ -11,3 +11,8 @@ CONV/export_code/test_conv_1d
 CONV/export_code/test_fir
 GNB/export_code/test
 CSD/export_code/test
+FXP/test
+FXP/y_int.bin
+*.pyc
+FXP/fxp_filter_data.c
+FXP/fxp_filter_data.c
