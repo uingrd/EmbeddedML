@@ -5,6 +5,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import svm
 
+# 设置当前工作目录
+import os,sys
+os.chdir(sys.path[0])
+
 np.random.seed(1234)
 
 ENABLE_PCA=True

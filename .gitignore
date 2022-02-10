@@ -17,3 +17,6 @@ FXP/y_int.bin
 FXP/fxp_filter_data.c
 FXP/fxp_filter_data.c
 python_numpy_dll/libAdd.so
+PERCEP/export_code/test
+PERCEP/export_code/percep_test.c
+PERCEP/export_code/percep_test.h
