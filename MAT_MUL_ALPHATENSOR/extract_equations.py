@@ -10,7 +10,7 @@ import sympy as sp
 # 代码参考：https://github.com/deepmind/alphatensor/tree/main/algorithms
 ################################
 
-NUM_EQU_VERIFY=10   # 验证的矩阵乘法分解式数目，如果想验证所有分解式的话，可以设置为np.inf
+NUM_EQU_VERIFY=15   # 验证的矩阵乘法分解式数目，如果想验证所有分解式的话，可以设置为np.inf
 PRINT_EQU=True      # 是否打印矩阵计算表达式
 
 # 根据原始矩阵乘法构建张量表示
