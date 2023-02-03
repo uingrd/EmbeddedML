@@ -15,6 +15,8 @@
 基于查表实现的快速COS算法演示
 ## MAT_MUL 
 矩阵乘法的快速运算
+## MAT_MUL_ALPHATENSOR
+AlphaTensor矩阵快速乘法的计算表达式提取和打印
 ## MAT_MUL_QUANT
 基于仿射映射量化的矩阵乘法演示
 ## MCM 
