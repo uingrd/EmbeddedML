@@ -1,4 +1,6 @@
 # 《AI嵌入式系统——算法优化与实现》软件工具、例程及教学辅助材料
+教学PPT和视频：https://pan.baidu.com/s/1M24GEoIjDL5ppyT6hFa3tw?pwd=emvg 
+
 ## CLS_ALL
 基于scikit-learn的机器学习算法演示
 ## CSD
