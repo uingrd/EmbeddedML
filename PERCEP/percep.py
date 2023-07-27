@@ -84,7 +84,7 @@ fp.write('\n};\n')
 
 fp.write('const float32_t b_f32[NUM_CLS] = \n{\n    ')
 for b_ in b:
-    fp.write('%e, '%b_)
+    fp.write('%e, '%b_[0])
 fp.write('\n};\n')    
 
 fp.write('const float32_t percep_test_in[NUM_DAT*NUM_DIM] = \n{')

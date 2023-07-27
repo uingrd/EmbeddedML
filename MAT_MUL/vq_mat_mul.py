@@ -13,7 +13,7 @@ np.random.seed(4567)
 ## 聚类（矢量量化）
 from sklearn.cluster import KMeans
 def vq(v,K):
-    cs=KMeans(n_clusters=K)
+    cs=KMeans(n_clusters=K, n_init='auto')
     cs.fit(v)
     return cs.cluster_centers_, cs.labels_ 
 

@@ -24,3 +24,16 @@ IRIS_DT/export_code/test_tree_dat.c
 IRIS_DT/export_code/test_tree_dat.h
 IRIS_DT/export_code/tree.c
 IRIS_DT/export_code/tree.h
+MNIST_PYTORCH_C/data/MNIST/raw/t10k-labels-idx1-ubyte
+MNIST_PYTORCH_C/data/MNIST/raw/t10k-labels-idx1-ubyte.gz
+MNIST_PYTORCH_C/data/MNIST/raw/train-images-idx3-ubyte
+MNIST_PYTORCH_C/data/MNIST/raw/t10k-images-idx3-ubyte
+MNIST_PYTORCH_C/data/MNIST/raw/t10k-images-idx3-ubyte.gz
+MNIST_PYTORCH_C/data/MNIST/raw/train-images-idx3-ubyte.gz
+MNIST_PYTORCH_C/data/MNIST/raw/train-labels-idx1-ubyte
+MNIST_PYTORCH_C/data/MNIST/raw/train-labels-idx1-ubyte.gz
+MNIST_PYTORCH_C/data/test_x.npy
+MNIST_PYTORCH_C/data/test_y.npy
+MNIST_PYTORCH_C/data/train_x.npy
+MNIST_PYTORCH_C/data/train_y.npy
+model.onnx

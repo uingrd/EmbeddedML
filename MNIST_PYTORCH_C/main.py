@@ -75,7 +75,7 @@ class model_c(nn.Module):
 
         self.conv1 = nn.Conv2d( 1, 32, 5, 1) # CI= 1, CO=32, K=5, S=1, (N, 1,28,28)->(N,32,24,24)
         self.conv2 = nn.Conv2d(32, 32, 5, 1) # CI=32, CO=32, K=5, S=1, (N,32,24,24)->(N,32,20,20)
-        self.dropout = nn.Dropout2d(0.4)  
+        self.dropout = nn.Dropout(0.4)  
         self.fc1 = nn.Linear(512, 1024)      # 512=32*4*4, (N,512)->(N,1024)
         self.fc2 = nn.Linear(1024,  10)
 

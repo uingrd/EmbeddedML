@@ -19,8 +19,7 @@ import numpy as np
 #    [Z00 Z01]=X*Y
 #    [Z10 Z11]
 def smul(X,Y):
-    if X.size==1:   # 标量元素
-        return float(X)*float(Y)
+    if X.size==1: return float(X.ravel()[0])*float(Y.ravel()[0])  # 标量元素
     
     # 可进一步拆分为子矩阵
     N=X.shape[0]//2 # 子矩阵尺寸
@@ -49,8 +48,7 @@ def smul(X,Y):
 # Coppersmith–Winograd算法
 # 对2x2矩阵乘法需要7次乘法和15次加减法
 def cwmul(X,Y):
-    if X.size==1:   # 标量元素
-        return float(X)*float(Y)
+    if X.size==1: return float(X.ravel()[0])*float(Y.ravel()[0])  # 标量元素
     
     # 可进一步拆分为子矩阵
     N=X.shape[0]//2 # 子矩阵尺寸
@@ -93,8 +91,8 @@ def extend_col(m): return np.hstack((m,np.zeros((m.shape[0],1))))
 ## Strassen矩阵乘法
 # 可应用于非2^n的方阵乘法
 def smul_nsqr(X,Y):
-    if X.size==1: return float(X)*Y
-    if Y.size==1: return X*float(Y)
+    if X.size==1: return float(X.ravel()[0])*Y
+    if Y.size==1: return X*float(Y.ravel()[0])
     
     Nr,Nc=X.shape # 子矩阵尺寸
     Mr,Mc=Y.shape # 子矩阵尺寸
@@ -134,8 +132,8 @@ def smul_nsqr(X,Y):
 # Coppersmith–Winograd算法
 # 可应用于非2^n的方阵乘法
 def cwmul_nsqr(X,Y):
-    if X.size==1: return float(X)*Y
-    if Y.size==1: return X*float(Y)
+    if X.size==1: return float(X.ravel()[0])*Y
+    if Y.size==1: return X*float(Y.ravel()[0])
     
     Nr,Nc=X.shape # 子矩阵尺寸
     Mr,Mc=Y.shape # 子矩阵尺寸

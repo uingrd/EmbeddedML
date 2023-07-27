@@ -55,6 +55,9 @@ def sym_mat_mul(a,b,c,u,v,w):
     
     return calc_str
     
+import platform,os,sys
+# 设置当前运行目录
+os.chdir(sys.path[0])
 
 # 测试快速算法
 np.random.seed(1234)
