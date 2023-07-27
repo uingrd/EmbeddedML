@@ -20,3 +20,7 @@ python_numpy_dll/libAdd.so
 PERCEP/export_code/test
 PERCEP/export_code/percep_test.c
 PERCEP/export_code/percep_test.h
+IRIS_DT/export_code/test_tree_dat.c
+IRIS_DT/export_code/test_tree_dat.h
+IRIS_DT/export_code/tree.c
+IRIS_DT/export_code/tree.h

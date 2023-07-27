@@ -14,10 +14,11 @@ from sklearn.tree import DecisionTreeClassifier
 #   tree            -- scikit-learn输出的决策树
 #   fname           -- 文件名
 def tree_to_c_code(tree, code_path=''):
-    print('[INF] Generating code...')
+    fname=code_path+'tree.c'
+    print(f'[INF] Generating code {fname}...')
     
     ## 生成C文件
-    with open(code_path+'tree.c', 'wt') as fout:
+    with open(fname, 'wt') as fout:
         def recurse(node=0, prefix='    '):
             if left[node]==-1 and right[node]==-1:  # leaf node
                 for i,v in enumerate(value[node][0]):
@@ -51,6 +52,10 @@ def tree_to_c_code(tree, code_path=''):
 
 if __name__=='__main__':
     
+    # 设置当前运行目录
+    import os, sys
+    os.chdir(sys.path[0])
+
     import IPython
     np.random.seed(1)
 
