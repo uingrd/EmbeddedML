@@ -229,7 +229,7 @@ if __name__ == '__main__':
     train_loader, test_loader=load_data(args.batch_size,args.test_batch_size)
     
     ## 训练pytorch模型，测试并保存
-    if False:
+    if True:
         print('[INF] Constructing model...')
         model = model_c()
         
