@@ -28,7 +28,9 @@ AlphaTensor矩阵快速乘法的计算表达式提取和打印
 ## MNIST_PYTORCH_FORCE_ZERO
 使用pytorch训练手写数字识别神经网络，通过L1约束使得权重系数稀疏化(取值接近0)，并自动生成C语言代码(数据文件)实现神经网络推理运算
 ## MNIST_PYTORCH_QUANT_ROUND
-使用pytorch训练手写数字识别神经网络，通过在损失函数中加入量化约束，使得权重系数集中在特定格点附近
+使用pytorch训练手写数字识别神经网络，通过在损失函数中加入量化约束，使得权重系数集中在(等间隔的)量化格点附近
+## MNIST_PYTORCH_QUANT_GRID
+使用pytorch训练手写数字识别神经网络，通过在损失函数中加入量化约束，使得权重落在指定的量化格点附近
 ## MNIST_PYTORCH_QUANT
 演示torch训练MNIST模型并用额外的loss量化，通过整数推理和浮点累积
 ## NEON
