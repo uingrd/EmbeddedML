@@ -31,21 +31,31 @@ def arctan2(i,q,algo):
 # 单元测试
 ####################
 if __name__ == '__main__':
-    t=np.linspace(-np.pi,np.pi,10001)[:-1]
+    N=10000
+    t=np.linspace(-np.pi,np.pi,N+1)[:-1]
+
     t1=np.array([arctan2(i,q,algo1) for i,q in zip(np.cos(t),np.sin(t))])
     t2=np.array([arctan2(i,q,algo2) for i,q in zip(np.cos(t),np.sin(t))])
     t3=np.array([arctan2(i,q,algo3) for i,q in zip(np.cos(t),np.sin(t))])
     t4=np.array([arctan2(i,q,algo4) for i,q in zip(np.cos(t),np.sin(t))])
     t5=np.array([arctan2(i,q,algo5) for i,q in zip(np.cos(t),np.sin(t))])
     t6=np.array([arctan2(i,q,algo6) for i,q in zip(np.cos(t),np.sin(t))])
-plt.clf()
-plt.plot(np.rad2deg(t),np.rad2deg(t-t1))
-plt.plot(np.rad2deg(t),np.rad2deg(t-t2))
-plt.plot(np.rad2deg(t),np.rad2deg(t-t3))
-plt.plot(np.rad2deg(t),np.rad2deg(t-t4))
-plt.plot(np.rad2deg(t),np.rad2deg(t-t5))
-plt.plot(np.rad2deg(t),np.rad2deg(t-t6))
 
-plt.legend(['err. algo. 1','err. algo. 2','err. algo. 3','err. algo. 4','err. algo.5','err. algo. 6'])
-plt.grid(True)
-plt.show()
+    print('algo1 err. %f (max: %f)'%(np.mean(np.abs(np.rad2deg(t-t1))),np.max(np.abs(np.rad2deg(t-t1)))))
+    print('algo2 err. %f (max: %f)'%(np.mean(np.abs(np.rad2deg(t-t2))),np.max(np.abs(np.rad2deg(t-t2)))))
+    print('algo3 err. %f (max: %f)'%(np.mean(np.abs(np.rad2deg(t-t3))),np.max(np.abs(np.rad2deg(t-t3)))))
+    print('algo4 err. %f (max: %f)'%(np.mean(np.abs(np.rad2deg(t-t4))),np.max(np.abs(np.rad2deg(t-t4)))))
+    print('algo5 err. %f (max: %f)'%(np.mean(np.abs(np.rad2deg(t-t5))),np.max(np.abs(np.rad2deg(t-t5)))))
+    print('algo6 err. %f (max: %f)'%(np.mean(np.abs(np.rad2deg(t-t6))),np.max(np.abs(np.rad2deg(t-t6)))))
+    
+    plt.clf()
+    plt.plot(np.rad2deg(t),np.rad2deg(t-t1))
+    plt.plot(np.rad2deg(t),np.rad2deg(t-t2))
+    plt.plot(np.rad2deg(t),np.rad2deg(t-t3))
+    plt.plot(np.rad2deg(t),np.rad2deg(t-t4))
+    plt.plot(np.rad2deg(t),np.rad2deg(t-t5))
+    plt.plot(np.rad2deg(t),np.rad2deg(t-t6))
+
+    plt.legend(['err. algo. 1','err. algo. 2','err. algo. 3','err. algo. 4','err. algo. 5','err. algo. 6'])
+    plt.grid(True)
+    plt.show()
