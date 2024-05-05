@@ -1,6 +1,8 @@
 # 《AI嵌入式系统——算法优化与实现》软件工具、例程及教学辅助材料
 教学PPT和视频：https://pan.baidu.com/s/1M24GEoIjDL5ppyT6hFa3tw?pwd=emvg 
 
+## ARCTAN
+arctan2的几种近似计算方法
 ## CLS_ALL
 基于scikit-learn的机器学习算法演示
 ## CSD
@@ -43,6 +45,8 @@ AlphaTensor矩阵快速乘法的计算表达式提取和打印
 演示用C++实现算法的动态链接库文件，并被python调用
 ## SCM
 搜索给定整数常数的合成公式，并生成快速乘法表达式
+## SIN
+sine的几种近似计算方法
 ## SVM_RBF
 训练支持向量机进行分类并自动生成C测试代码的例子
 ## TANH
